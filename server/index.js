@@ -1,7 +1,6 @@
 // 서버 생성
 const express = require('express')
 const app = express()
-const port = 5000
 
 // 모듈 추출
 const bodyParser = require('body-parser');
@@ -12,7 +11,6 @@ const { User } = require('./models/User');
 
 //application/x-www-form-urlencoded 방식의 Content-Type 데이터 받아줌 (jQuery.ajax의 기본타입)
 app.use(bodyParser.urlencoded({extended: true}));
-
 //application/json
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -27,7 +25,12 @@ mongoose.connect(config.mongoURI, {
 
     app.get('/', (req, res) => res.send('Hello World! Nodemon 짱인데?'))
 
-    app.post('/register', (req, res) => {
+    app.get('/api/hello', (req, res) => {
+        res.send('ajax cors')
+    })
+
+
+    app.post('/api/users/register', (req, res) => {
         // 회원가입 할 때 필요한 정보들을 client에서 가져오면
         // 그것들을 데이터베이스에 넣어줌
         const user = new User(req.body)
@@ -87,7 +90,6 @@ app.get('/api/users/auth', auth , (req, res) => {
         isAuth: true,
         email: req.user.email,
         name: req.user.name,
-        lastname: req.user.lastname,
         role: req.user.role,
         image: req.user.image
     })
@@ -103,5 +105,8 @@ app.get('/api/users/logout', auth, (req, res) => {
             })
         })
  })
+
+
+ const port = 5000
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
