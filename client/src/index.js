@@ -13,17 +13,17 @@ import Reducer from './_reducers'
 
 const createStoreWithMiddleWare = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore);
 
+const store = createStoreWithMiddleWare(Reducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__&&
+    window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+
 
 ReactDOM.render(
-    <Provider
-        store={createStoreWithMiddleWare(Reducer,
-            window._REDUX_DEVTOOLS_EXTENSION_&&
-            window._REDUX_DEVTOOLS_EXTENSION_()
-        )}
-    >
-       <App />,
-    </Provider>
-    ,    document.getElementById('root')
+    <Provider store={store} >
+       <App />
+    </Provider>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

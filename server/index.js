@@ -43,8 +43,6 @@ mongoose.connect(config.mongoURI, {
     })
 
     app.post('/api/users/login', (req, res) => {
-
-        console.log('ping')
         // 요청한 email이 DB에 존재하는지 확인
         User.findOne( {email: req.body.email}, (err, user) => {
             if(!user) { // 유저가 없다면
@@ -81,8 +79,8 @@ mongoose.connect(config.mongoURI, {
 
 
 // role 0 == 일반유저 role != 0 관리자
-app.get('/api/users/auth', auth , (req, res) => {
-
+app.post('/api/users/auth', auth , (req, res) => {
+    console.log("통과함")
     // 여기까지 미들웨어를 통과해왔다 -> Authentication True
     res.status(200).json({
         _id: req.user._id,
